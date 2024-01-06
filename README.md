@@ -1,4 +1,4 @@
-# bevy_broken_on_mobile
+# bevy_broken
 Showing a minimum viable example of bevy being broken on mobile when device aspect ratio is anything besides 2
 
 You can run this example by doing: `cargo run --target wasm32-unknown-unknown`
