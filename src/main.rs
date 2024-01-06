@@ -5,7 +5,7 @@
 // type aliases tends to obfuscate code while offering no improvement in code cleanliness.
 #![allow(clippy::type_complexity)]
 
-use bevy::{asset::AssetMetaCheck, prelude::*, winit::WinitSettings};
+use bevy::{asset::AssetMetaCheck, input::mouse::MouseMotion, prelude::*, winit::WinitSettings};
 
 use wasm_bindgen::JsCast;
 use web_sys::HtmlCanvasElement;
@@ -26,7 +26,7 @@ fn main() {
         // Only run the app when there is user input. This will significantly reduce CPU/GPU use.
         .insert_resource(WinitSettings::desktop_app())
         .add_systems(Startup, setup)
-        .add_systems(Update, button_system)
+        .add_systems(Update, (button_system, mouse_system))
         .run();
 }
 
@@ -125,4 +125,16 @@ fn fit_canvas_to_parent() {
     let style = canvas.style();
     style.set_property("width", "100%").unwrap();
     style.set_property("height", "100%").unwrap();
+}
+
+pub fn mouse_system(
+    mut mouse_motion_events: EventReader<MouseMotion>,
+    mouse: Res<ButtonInput<MouseButton>>,
+) {
+    for event in mouse_motion_events.read() {
+        info!("1-{:#?}", event);
+        if mouse.pressed(MouseButton::Middle) || mouse.pressed(MouseButton::Left) {
+            info!("2-{:#?}", mouse);
+        }
+    }
 }
